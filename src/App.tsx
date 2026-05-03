@@ -105,7 +105,7 @@ export default function App() {
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="flex-grow flex items-center justify-center p-4"
+      className="flex-grow flex items-center justify-center p-4 h-fit"
     >
       <div className="bg-slate-900/60 border border-slate-800 p-6 lg:p-10 rounded-[2.5rem] max-w-lg w-full text-center shadow-2xl backdrop-blur-sm">
         <div className="w-14 h-14 bg-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-5">
@@ -135,7 +135,7 @@ export default function App() {
     if (!currentQuestion) return null;
 
     return (
-      <main className="flex-grow flex flex-col-reverse lg:flex-row p-4 gap-4 lg:gap-6 overflow-y-auto overflow-x-hidden lg:overflow-hidden h-auto lg:h-full container mx-auto max-w-[1400px]">
+      <main className="pt-20 pb-15 flex lg:flex-row flex-col-reverse p-4 gap-4 lg:gap-6 overflow-x-hidden h-full container mx-auto">
         <motion.div
           key={`q-panel-${questionIdx}`}
           initial={{ opacity: 0, x: -30 }}
@@ -218,20 +218,19 @@ export default function App() {
               })}
             </div>
 
-            <div className="mt-auto shrink-0 h-[68px]">
+            <div className="mt-auto shrink-0 h-14">
               <AnimatePresence>
-                {isAnswered && (
-                  <motion.button
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    id="next-step-btn"
-                    onClick={handleNext}
-                    className={`w-full py-4 rounded-2xl font-black text-base flex items-center justify-center gap-3 transition-all shadow-xl ${questionIdx === 29 ? "bg-emerald-600 hover:bg-emerald-500 text-white shadow-emerald-950/20" : "bg-indigo-600 hover:bg-indigo-500 text-white shadow-indigo-950/20"}`}
-                  >
-                    {questionIdx === 29 ? "COMPLETE CHALLENGE" : "CONTINUE"}
-                    <ArrowRight className="w-5 h-5" />
-                  </motion.button>
-                )}
+                <motion.button
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  id="next-step-btn"
+                  disabled={!isAnswered}
+                  onClick={handleNext}
+                  className={` disabled:bg-slate-800 disabled:text-slate-400 w-full py-4 rounded-2xl font-black text-base flex items-center justify-center gap-3 transition-all shadow-xl ${questionIdx === 29 ? "bg-emerald-600 hover:bg-emerald-500 text-white shadow-emerald-950/20" : "bg-indigo-600 hover:bg-indigo-500 text-white shadow-indigo-950/20"}`}
+                >
+                  {questionIdx === 29 ? "COMPLETE CHALLENGE" : "CONTINUE"}
+                  <ArrowRight className="w-5 h-5" />
+                </motion.button>
               </AnimatePresence>
             </div>
           </div>
@@ -242,9 +241,9 @@ export default function App() {
           key={`flow-viz-${questionIdx}`}
           initial={{ opacity: 0, x: 30 }}
           animate={{ opacity: 1, x: 0 }}
-          className="flex-grow flex flex-col min-h-[400px] lg:h-full"
+          className="flex-grow flex flex-col h-full"
         >
-          <div className="flex-grow flex items-center justify-center bg-slate-900/40 border border-slate-800 rounded-3xl relative overflow-hidden group">
+          <div className="flex-grow flex items-center justify-center bg-slate-900/40 border border-slate-800 rounded-3xl relative group">
             <Flowchart
               data={currentQuestion.flowchart}
               className="w-full h-full border-none bg-transparent"
@@ -278,7 +277,7 @@ export default function App() {
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="flex-grow flex items-center justify-center p-2 lg:p-6 overflow-y-auto custom-scrollbar min-h-0"
+        className="flex-grow flex items-center justify-center lg:p-6 overflow-y-auto custom-scrollbar"
       >
         <div className="bg-slate-900/60 border border-slate-800 p-4 lg:p-8 rounded-[2.5rem] max-w-4xl w-full text-center shadow-2xl backdrop-blur-md my-auto relative scale-[0.9] lg:scale-100">
           <div className="relative mb-2 lg:mb-4 inline-block">
@@ -287,10 +286,10 @@ export default function App() {
             </div>
           </div>
 
-          <h2 className="text-xl lg:text-3xl font-black text-white mb-0.5 lg:mb-1 tracking-tighter uppercase">
+          <h2 className="text-3xl font-black text-white mb-0.5 lg:mb-1 tracking-tighter uppercase">
             Challenge Complete
           </h2>
-          <p className="text-slate-500 mb-4 lg:mb-8 max-w-md mx-auto font-medium text-[10px] lg:text-sm italic">
+          <p className="text-slate-500 mb-4 lg:mb-8 max-w-md mx-auto font-medium text-sm italic">
             Great job! You've navigated through the logic flows.
           </p>
 
@@ -298,28 +297,28 @@ export default function App() {
             <div className="space-y-3 lg:space-y-4">
               <div className="grid grid-cols-2 gap-2 lg:gap-4">
                 <div className="bg-slate-950/60 p-2.5 lg:p-4 rounded-xl border border-slate-800/60 text-center">
-                  <div className="text-[6px] lg:text-[8px] font-black text-indigo-400 uppercase tracking-[0.2em] mb-0.5 lg:mb-1 font-mono">
+                  <div className="text-[8px] font-black text-indigo-400 uppercase tracking-[0.2em] mb-0.5 lg:mb-1 font-mono">
                     Final Score
                   </div>
-                  <div className="text-lg lg:text-2xl font-mono font-black text-white">
+                  <div className="text-2xl font-mono font-black text-white">
                     {score}
                   </div>
                 </div>
                 <div className="bg-slate-950/60 p-2.5 lg:p-4 rounded-xl border border-slate-800/60 text-center">
-                  <div className="text-[6px] lg:text-[8px] font-black text-slate-500 uppercase tracking-[0.2em] mb-0.5 lg:mb-1 font-mono">
+                  <div className="text-[8px] font-black text-slate-500 uppercase tracking-[0.2em] mb-0.5 lg:mb-1 font-mono">
                     Steps Taken
                   </div>
-                  <div className="text-lg lg:text-2xl font-mono font-black text-indigo-500">
+                  <div className="text-2xl font-mono font-black text-indigo-500">
                     {results.length}/30
                   </div>
                 </div>
               </div>
 
               <div className="bg-slate-950/40 p-2 lg:p-3 rounded-xl border border-slate-800/40 text-center">
-                <div className="text-[6px] lg:text-[8px] font-black text-slate-500 uppercase tracking-[0.2em] mb-0.5 font-mono">
+                <div className="text-[8px] font-black text-slate-500 uppercase tracking-[0.2em] mb-0.5 font-mono">
                   Personal Best
                 </div>
-                <div className="text-base lg:text-lg font-mono font-black text-slate-300">
+                <div className="text-lg font-mono font-black text-slate-300">
                   {highScore}
                 </div>
               </div>
@@ -344,7 +343,7 @@ export default function App() {
                       {stats[diff].correct}/{stats[diff].total}
                     </span>
                   </div>
-                  <div className="h-1 lg:h-2 bg-slate-800 rounded-full overflow-hidden border border-slate-700/50">
+                  <div className="h-3 bg-slate-800 rounded-full overflow-hidden border border-slate-700/50">
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{
@@ -361,7 +360,7 @@ export default function App() {
           <div className="flex md:flex-row flex-col gap-2.5 lg:gap-3.5">
             <button
               onClick={() => setShowSequenceMap(true)}
-              className="w-full py-3 bg-slate-800 text-white rounded-xl font-black text-[10px] lg:text-xs flex items-center justify-center gap-2.5 hover:bg-slate-700 transition-all border border-slate-700 active:scale-95 shadow-xl"
+              className="w-full py-3 bg-slate-800 text-white rounded-xl font-black text-xs flex items-center justify-center gap-2.5 hover:bg-slate-700 transition-all border border-slate-700 active:scale-95 shadow-xl"
             >
               <Layout className="w-3.5 h-3.5 shadow-sm" />
               SHOW SEQUENCE MAP
@@ -373,7 +372,7 @@ export default function App() {
                 resetQuizContent();
                 setCurrentStep("start");
               }}
-              className="w-full py-3 bg-white text-slate-950 rounded-xl font-black text-[10px] lg:text-xs flex items-center justify-center gap-2.5 hover:bg-slate-200 transition-all shadow-xl active:scale-95"
+              className="w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-whitey rounded-xl font-black text-xs flex items-center justify-center gap-2.5 transition-all shadow-xl active:scale-95"
             >
               <RotateCcw className="w-3.5 h-3.5" />
               RESTART CHALLENGE
@@ -389,13 +388,13 @@ export default function App() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   onClick={() => setShowSequenceMap(false)}
-                  className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-[100] cursor-pointer"
+                  className="fixed inset-0 bg-slate-950/80 rounded-4xl backdrop-blur-sm z-[100] cursor-pointer"
                 />
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.95 }}
-                  className="fixed inset-0 w-full bg-slate-950 z-[101] flex flex-col items-center justify-center p-10"
+                  className="fixed inset-0 w-full bg-slate-950 rounded-4xl z-[101] flex flex-col items-center justify-center p-20"
                 >
                   <button
                     onClick={() => setShowSequenceMap(false)}
@@ -423,7 +422,7 @@ export default function App() {
                         >
                           <div
                             title={`Q${i + 1}: ${res.difficulty}`}
-                            className={`lg:w-full md:w-1/2 aspect-square rounded-full border-2 transition-all cursor-default flex items-center justify-center ${
+                            className={`lg:w-full w-1/2 aspect-square rounded-full border-2 transition-all cursor-default flex items-center justify-center ${
                               res.correct
                                 ? res.difficulty === "easy"
                                   ? "bg-emerald-500/20 border-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.15)]"
@@ -474,9 +473,9 @@ export default function App() {
   };
 
   return (
-    <div className="h-screen bg-slate-950 text-slate-200 font-sans flex flex-col overflow-hidden selection:bg-indigo-500 selection:text-white">
+    <div className=" bg-slate-950 text-slate-200 font-sans flex flex-col items-center justify-center overflow-hidden selection:bg-indigo-500 selection:text-white">
       {/* Top Navigation Bar */}
-      <nav className="h-16 border-b border-slate-800/60 bg-slate-950/50 backdrop-blur-md flex items-center justify-between px-8 flex-shrink-0 z-50">
+      <nav className="fixed w-full left-0 top-0 h-16 border-b border-slate-800/60 bg-slate-950/50 backdrop-blur-md flex items-center justify-between px-8 flex-shrink-0 z-50">
         <div
           className="flex items-center gap-1 md:gap-3 cursor-pointer group"
           onClick={() => setCurrentStep("start")}
@@ -504,7 +503,7 @@ export default function App() {
               </div>
             </div>
             <div className="h-8 w-px bg-slate-800"></div>
-            <div className="md:flex hidden flex-col items-center">
+            <div className="flex flex-col items-center">
               <span className="text-[10px] uppercase tracking-widest text-slate-500 font-black">
                 Score
               </span>
@@ -522,7 +521,7 @@ export default function App() {
         )}
       </nav>
 
-      <div className="flex-grow flex flex-col min-h-0 bg-slate-950/20">
+      <div className="flex-grow flex justify-center items-center overflow-hidden bg-slate-950/20 h-svh w-full">
         <AnimatePresence mode="wait">
           {currentStep === "start" && renderStart()}
           {currentStep === "quiz" && renderQuiz()}
@@ -531,7 +530,7 @@ export default function App() {
       </div>
 
       {/* Bottom Status Bar */}
-      <footer className="h-10 bg-slate-950 border-t border-slate-800/60 flex items-center justify-center px-8 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500 flex-shrink-0">
+      <footer className="z-[200] w-full fixed bottom-0 left-0 h-10 bg-slate-950 border-t border-slate-800/60 flex items-center justify-center px-8 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500 flex-shrink-0">
         <span>by Fakhri Gajar</span>
       </footer>
     </div>

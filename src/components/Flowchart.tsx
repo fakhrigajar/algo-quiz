@@ -246,9 +246,9 @@ const Flowchart: React.FC<FlowchartProps> = ({ data, className }) => {
         }}
       ></div>
       <svg
-        viewBox="0 0 500 450"
+        viewBox="0 0 500 500"
         preserveAspectRatio="xMidYMid meet"
-        className="w-full max-h-full p-4 relative z-10 max-w-lg"
+        className="w-full max-h-full p-4 z-10 max-w-lg absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2"
       >
         {data.edges.map((edge, i) => renderEdge(edge, i))}
         {data.nodes.map((node) => renderNode(node))}

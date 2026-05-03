@@ -1,5 +1,5 @@
-import React from 'react';
-import { FlowchartData, FlowNode, FlowEdge } from '../types';
+import React from "react";
+import { FlowchartData, FlowNode, FlowEdge } from "../types";
 
 interface FlowchartProps {
   data: FlowchartData;
@@ -13,7 +13,7 @@ const Flowchart: React.FC<FlowchartProps> = ({ data, className }) => {
     const halfH = height / 2;
 
     switch (type) {
-      case 'PROCESS':
+      case "PROCESS":
         return (
           <g key={id}>
             <rect
@@ -40,7 +40,7 @@ const Flowchart: React.FC<FlowchartProps> = ({ data, className }) => {
             ))}
           </g>
         );
-      case 'DECISION':
+      case "DECISION":
         const points = `${x},${y - halfH} ${x + halfW},${y} ${x},${y + halfH} ${x - halfW},${y}`;
         return (
           <g key={id}>
@@ -65,7 +65,7 @@ const Flowchart: React.FC<FlowchartProps> = ({ data, className }) => {
             ))}
           </g>
         );
-      case 'START_END':
+      case "START_END":
         return (
           <g key={id}>
             <rect
@@ -90,16 +90,16 @@ const Flowchart: React.FC<FlowchartProps> = ({ data, className }) => {
             </text>
           </g>
         );
-      case 'OUTPUT':
+      case "OUTPUT":
         const x1 = x - halfW;
         const x2 = x + halfW;
         const y1 = y - halfH;
         const y2 = y + halfH - 10;
-        const pathData = `M ${x1} ${y1} L ${x2} ${y1} L ${x2} ${y2} Q ${x + halfW/2} ${y2 + 15} ${x} ${y2} Q ${x - halfW/2} ${y2 - 15} ${x1} ${y2} Z`;
+        const pathData = `M ${x1} ${y1} L ${x2} ${y1} L ${x2} ${y2} Q ${x + halfW / 2} ${y2 + 15} ${x} ${y2} Q ${x - halfW / 2} ${y2 - 15} ${x1} ${y2} Z`;
 
         return (
           <g key={id}>
-             <path
+            <path
               d={pathData}
               fill="#0f172a"
               stroke="#475569"
@@ -122,47 +122,55 @@ const Flowchart: React.FC<FlowchartProps> = ({ data, className }) => {
     }
   };
 
-  const getPoint = (nodeId: string, side?: string): { x: number; y: number } => {
-    const node = data.nodes.find(n => n.id === nodeId);
+  const getPoint = (
+    nodeId: string,
+    side?: string,
+  ): { x: number; y: number } => {
+    const node = data.nodes.find((n) => n.id === nodeId);
     if (!node) return { x: 0, y: 0 };
     const { x, y, width = 120, height = 50 } = node;
     const halfW = width / 2;
     const halfH = height / 2;
 
     switch (side) {
-      case 'top': return { x, y: y - halfH };
-      case 'bottom': return { x, y: y + halfH };
-      case 'left': return { x: x - halfW, y };
-      case 'right': return { x: x + halfW, y };
-      default: return { x, y };
+      case "top":
+        return { x, y: y - halfH };
+      case "bottom":
+        return { x, y: y + halfH };
+      case "left":
+        return { x: x - halfW, y };
+      case "right":
+        return { x: x + halfW, y };
+      default:
+        return { x, y };
     }
   };
 
   const renderEdge = (edge: FlowEdge, index: number) => {
     const start = getPoint(edge.from, edge.fromSide);
     const end = getPoint(edge.to, edge.toSide);
-    
+
     let path = `M ${start.x} ${start.y}`;
-    
+
     if (edge.path) {
-      edge.path.forEach(p => {
+      edge.path.forEach((p) => {
         path += ` L ${p.x} ${p.y}`;
       });
       path += ` L ${end.x} ${end.y}`;
     } else {
       // Automatic Orthogonal Routing
-      if (edge.fromSide === 'bottom' && edge.toSide === 'top') {
+      if (edge.fromSide === "bottom" && edge.toSide === "top") {
         if (start.x === end.x) {
           path += ` L ${end.x} ${end.y}`;
         } else {
           const midY = (start.y + end.y) / 2;
           path += ` L ${start.x} ${midY} L ${end.x} ${midY} L ${end.x} ${end.y}`;
         }
-      } else if (edge.fromSide === 'right' && edge.toSide === 'top') {
+      } else if (edge.fromSide === "right" && edge.toSide === "top") {
         path += ` L ${end.x} ${start.y} L ${end.x} ${end.y}`;
-      } else if (edge.fromSide === 'left' && edge.toSide === 'top') {
+      } else if (edge.fromSide === "left" && edge.toSide === "top") {
         path += ` L ${end.x} ${start.y} L ${end.x} ${end.y}`;
-      } else if (edge.fromSide === 'right' && edge.toSide === 'left') {
+      } else if (edge.fromSide === "right" && edge.toSide === "left") {
         path += ` L ${end.x} ${start.y} L ${end.x} ${end.y}`;
       } else {
         path += ` L ${end.x} ${end.y}`;
@@ -191,17 +199,26 @@ const Flowchart: React.FC<FlowchartProps> = ({ data, className }) => {
           markerEnd="url(#arrowhead)"
         />
         {edge.label && (
-           <g>
-             {(() => {
-               // Heuristic for label placement
-               let lx = start.x;
-               let ly = start.y;
-               if (edge.fromSide === 'right') { lx += 25; ly -= 10; }
-               if (edge.fromSide === 'bottom') { lx += 10; ly += 25; }
-               if (edge.fromSide === 'left') { lx -= 25; ly -= 10; }
+          <g>
+            {(() => {
+              // Heuristic for label placement
+              let lx = start.x;
+              let ly = start.y;
+              if (edge.fromSide === "right") {
+                lx += 25;
+                ly -= 10;
+              }
+              if (edge.fromSide === "bottom") {
+                lx += 10;
+                ly += 25;
+              }
+              if (edge.fromSide === "left") {
+                lx -= 25;
+                ly -= 10;
+              }
 
-               return (
-                 <text
+              return (
+                <text
                   x={lx}
                   y={ly}
                   textAnchor="middle"
@@ -209,24 +226,32 @@ const Flowchart: React.FC<FlowchartProps> = ({ data, className }) => {
                 >
                   {edge.label}
                 </text>
-               );
-             })()}
-           </g>
+              );
+            })()}
+          </g>
         )}
       </g>
     );
   };
 
   return (
-    <div className={`w-full h-full bg-slate-950/50 relative overflow-hidden flex items-center justify-center ${className}`}>
-      <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(#6366f1 0.8px, transparent 0.8px)', backgroundSize: '32px 32px' }}></div>
+    <div
+      className={`w-full h-full bg-slate-950/50 relative overflow-hidden flex items-center justify-center ${className}`}
+    >
+      <div
+        className="absolute inset-0 opacity-10"
+        style={{
+          backgroundImage: "radial-gradient(#6366f1 0.8px, transparent 0.8px)",
+          backgroundSize: "32px 32px",
+        }}
+      ></div>
       <svg
-        viewBox="0 0 500 500"
+        viewBox="0 0 500 450"
         preserveAspectRatio="xMidYMid meet"
-        className="w-full h-full max-w-full max-h-full p-4 relative z-10"
+        className="w-full max-h-full p-4 relative z-10 max-w-lg"
       >
         {data.edges.map((edge, i) => renderEdge(edge, i))}
-        {data.nodes.map(node => renderNode(node))}
+        {data.nodes.map((node) => renderNode(node))}
       </svg>
     </div>
   );

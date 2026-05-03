@@ -133,9 +133,9 @@ export default function App() {
 
   const renderQuiz = () => {
     if (!currentQuestion) return null;
+
     return (
-      <main className="flex-grow flex flex-col lg:flex-row p-4 gap-4 lg:gap-6 overflow-y-auto lg:overflow-hidden h-auto lg:h-full container mx-auto max-w-[1400px]">
-        {/* Left Panel: Question & Logic */}
+      <main className="flex-grow flex flex-col-reverse lg:flex-row p-4 gap-4 lg:gap-6 overflow-y-auto overflow-x-hidden lg:overflow-hidden h-auto lg:h-full container mx-auto max-w-[1400px]">
         <motion.div
           key={`q-panel-${questionIdx}`}
           initial={{ opacity: 0, x: -30 }}
@@ -157,7 +157,7 @@ export default function App() {
                         : "bg-rose-500/10 border-rose-500/20 text-rose-400"
                   }`}
                 >
-                  {currentDifficulty} (+{pointsForCurrent})
+                  {currentDifficulty} (+{pointsForCurrent} pts)
                 </span>
               </div>
             </div>
@@ -415,7 +415,7 @@ export default function App() {
                       </p>
                     </div>
 
-                    <div className="grid grid-cols-5 md:grid-cols-10 gap-y-3 lg:gap-5 w-full">
+                    <div className="grid grid-cols-5 md:grid-cols-10 gap-y-3 lg:gap-5 md:w-3/4 w-full">
                       {results.map((res, i) => (
                         <div
                           key={i}

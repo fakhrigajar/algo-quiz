@@ -1,7 +1,29 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap");
 @import "tailwindcss";
 
 @theme {
+  --color-brand-50: #fff6e8;
+  --color-brand-100: #ffe8c2;
+  --color-brand-200: #ffd18a;
+  --color-brand-300: #ffb84d;
+  --color-brand-400: #ffa51f;
+  --color-brand-500: #ff9500;
+  --color-brand-600: #ff7900;
+  --color-brand-700: #d95c00;
+  --color-brand-800: #a84209;
+  --color-brand-900: #71300d;
+  --color-brand-950: #321707;
+  --color-slate-50: #faf9f7;
+  --color-slate-100: #f4f1ed;
+  --color-slate-200: #e7e2dc;
+  --color-slate-300: #d2cbc3;
+  --color-slate-400: #b0a69c;
+  --color-slate-500: #90867c;
+  --color-slate-600: #6d6258;
+  --color-slate-700: #4b4036;
+  --color-slate-800: #30271f;
+  --color-slate-900: #15120f;
+  --color-slate-950: #080706;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
   --font-display: "Space Grotesk", sans-serif;
@@ -11,7 +33,122 @@
   body {
     @apply bg-slate-950 text-slate-300 antialiased;
   }
-  h1, h2, h3 {
+  h1,
+  h2,
+  h3 {
     @apply font-display tracking-tight text-white;
+  }
+  /* Tailwind v4's preflight resets buttons to cursor: default. */
+  button,
+  [role="button"] {
+    @apply cursor-pointer;
+  }
+  button:disabled,
+  [role="button"][aria-disabled="true"] {
+    @apply cursor-not-allowed;
+  }
+}
+
+.app-shell {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  height: 100svh;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.app-content {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+}
+
+.app-footer {
+  padding-top: 0.5rem;
+  padding-bottom: calc(0.5rem + env(safe-area-inset-bottom, 0px));
+}
+
+.dashboard-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1 0 auto;
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  padding: 1rem;
+  overflow: auto;
+}
+
+.dashboard-content {
+  display: grid;
+  grid-auto-rows: auto;
+  align-content: start;
+  gap: 0.75rem;
+  flex-shrink: 0;
+  margin-block: auto;
+  min-height: 0;
+}
+
+.mistakes-layout {
+  flex: 1 0 auto;
+  width: 100%;
+  min-width: 0;
+  min-height: 100%;
+  padding: 1rem;
+}
+
+.dashboard-card {
+  border: 1px solid var(--color-slate-800);
+  border-radius: 1.5rem;
+  background: color-mix(in srgb, var(--color-slate-900) 65%, transparent);
+}
+
+/* Give the diagram a definite viewport budget so its SVG cannot grow the panel. */
+.quiz-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) auto;
+  grid-template-areas: "flow" "questions";
+  gap: 1rem;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding: 1rem;
+  overflow: hidden;
+}
+
+.quiz-question-panel {
+  grid-area: questions;
+  min-width: 0;
+  min-height: 0;
+  max-height: 45svh;
+  overflow-y: auto;
+}
+
+.quiz-question-panel > div {
+  flex-shrink: 0;
+}
+
+.quiz-flow-panel {
+  grid-area: flow;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+@media (min-width: 1024px) {
+  .quiz-layout {
+    grid-template-columns: 400px minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
+    grid-template-areas: "questions flow";
+    gap: 1.5rem;
+  }
+
+  .quiz-question-panel {
+    max-height: none;
   }
 }
